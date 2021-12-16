@@ -17,7 +17,7 @@ poetry run python dqn_atari.py --exp-name=<game>_resnet --encoder resnet --gym-i
 
 To run DCGAN-based model on \<game\> [Breakout, SpaceInvaders, MsPacman] (after pretraining DCGAN model):
 ```bash
-poetry run python dqn_atari.py --exp-name=<game>_resnet --encoder dcgan --dcgan_path <dcgan_path> --gym-id <game>NoFrameskip-v4
+poetry run python dqn_atari.py --exp-name=<game>_dcgan --encoder dcgan --dcgan_path <dcgan_path> --gym-id <game>NoFrameskip-v4
 ```
 
 ### Pretraining DCGAN
