@@ -21,4 +21,4 @@ poetry run python dqn_atari.py --exp-name=<game>_dcgan --encoder dcgan --dcgan_p
 ```
 
 ### Pretraining DCGAN
-Open the dcgan-atari-train.ipynb on Google Colab with GPU runtime and run all blocks. It should save checkpoints in the temporary folder on Colab, from which the Discriminator checkpoint path must be assigned as \<dcgan_path\>
+Open the dcgan-atari-train.ipynb on Google Colab with GPU runtime and run all blocks. It should save checkpoints in the temporary folder on Colab, from which the Discriminator checkpoint path must be assigned as \<dcgan_path\>.
