@@ -10,13 +10,15 @@ To run experiments locally, give the following a try:
 ```bash
 poetry install
 ```
-To run our Resnet model on \<game\> [Breakout, SpaceInvaders, MsPacman]:
+To run our ResNet-based model on \<game\> [Breakout, SpaceInvaders, MsPacman]:
 ```bash
 poetry run python dqn_atari.py --exp-name=<game>_resnet --encoder resnet --gym-id <game>NoFrameskip-v4
 ```
 
-To run DCGAN model on  \<game\> [Breakout, SpaceInvaders, MsPacman]:
+To run DCGAN-based model on \<game\> [Breakout, SpaceInvaders, MsPacman] (after pretraining DCGAN model):
 ```bash
-poetry run python <dcgan_pre_training>
 poetry run python dqn_atari.py --exp-name=<game>_resnet --encoder dcgan --dcgan_path <dcgan_path> --gym-id <game>NoFrameskip-v4
 ```
+
+### Pretraining DCGAN
+Open the .ipynb and run all blocks. It should save checkpoints, from which the Discriminator checkpoint path must be assigned as \<dcgan_path\>
