@@ -21,4 +21,4 @@ poetry run python dqn_atari.py --exp-name=<game>_resnet --encoder dcgan --dcgan_
 ```
 
 ### Pretraining DCGAN
-Open the .ipynb and run all blocks. It should save checkpoints, from which the Discriminator checkpoint path must be assigned as \<dcgan_path\>
+Open the dcgan-atari-train.ipynb and run all blocks. It should save checkpoints, from which the Discriminator checkpoint path must be assigned as \<dcgan_path\>
