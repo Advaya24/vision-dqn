@@ -46,13 +46,10 @@ class Discriminator(nn.Module):
         )
 
     def forward(self, x):
-        # conv_out = self.conv_pipe(x)
-        # print(x.size())
         x = x.view(-1, 1, x.shape[-2], x.shape[-1]).repeat_interleave(3, dim=1)
         for layer in self.conv_pipe[:-2]:
           x = layer(x)
         x = x.view(-1, 4*x.shape[1], x.shape[-2], x.shape[-1])
-        # return conv_out.view(-1, 1).squeeze(dim=1)
         return x
 
 class ConvBlock(nn.Module):
@@ -152,25 +149,17 @@ class ResEncoder(nn.Module):
                 nn.Linear(512, g_dim))
 
     def forward(self, x):
-        # print(x.shape)
-        # x = x.repeat_interleave(3, dim=1)
         x = self.converter(x)
-        # print(x.shape)
         x = self.input_block(x)
-        # print(x.shape)
         x = self.input_pool(x)
-        # print(x.shape)
 
         for i, block in enumerate(self.down_blocks, 2):
             x = block(x)
-            # print(x.shape)
             if i == (ResEncoder.DEPTH - 1):
                 continue
 
         x = self.bridge(x)
-        # print(x.shape)
         x = self.out(x)
-        # print(x.shape)
         return x
 
 
@@ -627,7 +616,6 @@ class QNetwork(nn.Module):
             self.network = ResEncoder(env.action_space.n)
         elif encoder == 'dcgan':
             self.enc = Discriminator((3, 84, 84))
-            # self.network = nn.Sequential(ConvBlock(4, 3), self.enc, nn.Flatten(), nn.Linear(5*5*512, env.action_space.n), nn.Sigmoid())
             self.network = nn.Sequential(self.enc, ConvBlock(2048, 512), nn.ReLU(), nn.Flatten(), nn.Linear(5*5*512, env.action_space.n))
         else:
             self.network = nn.Sequential(
@@ -689,7 +677,7 @@ if not args.test:
         
         # TRY NOT TO MODIFY: record rewards for plotting purposes
         if 'episode' in info.keys():
-            # print(f"global_step={global_step}, episode_reward={info['episode']['r']}")
+            print(f"global_step={global_step}, episode_reward={info['episode']['r']}")
             writer.add_scalar("charts/episodic_return", info['episode']['r'], global_step)
             writer.add_scalar("charts/epsilon", epsilon, global_step)
 
@@ -728,12 +716,11 @@ if not args.test:
 else:
     print('Testing')
     epsilon = 0.05
-    start_time = time.time()
-    # end_time = start_time + 60*5
+
     while num_episodes < 100:
         global_step = 0
         episode_reward = 0
-        while global_step < 18000:
+        while global_step < 18000: # 5 minute emulator time
             obs = np.array(obs)
             if random.random() < epsilon:
                 action = env.action_space.sample()
@@ -746,7 +733,6 @@ else:
             if 'episode' in info.keys():
                 num_episodes += 1
                 total_reward += info['episode']['r']
-                # print(f"global_step={global_step}, episode_reward={info['episode']['r']}")
                 print(f'Episode reward: {info["episode"]["r"]}, Total reward: {total_reward}, Episodes: {num_episodes}')
                 writer.add_scalar("charts/episodic_return", info['episode']['r'], global_step)
                 obs, episode_reward = env.reset(), 0
